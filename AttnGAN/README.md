@@ -1,3 +1,3 @@
 # What I did
-  1. I'm using sparsemax instead of softmax in Global Attention so the model doesn't mix in low importance words. I used [this sparsemax implementation](https://github.com/deep-spin/entmax).
-  2. Instead of using the last LSTM hidden state for the sentence embedding I use the ZSL GAN approach of encoding the sentence as a TF-IDF vector and running it through a fully connected layer.
+  1. I'm using sparsemax instead of softmax in Global Attention so the model doesn't mix in low importance words. I used [this sparsemax implementation](https://github.com/deep-spin/entmax). (/code/GlobalAttention.py)
+  2. Instead of using the last LSTM hidden state for the sentence embedding I use the ZSL GAN approach of encoding the sentence as a TF-IDF vector and running it through a fully connected layer. (/code/model.py)
