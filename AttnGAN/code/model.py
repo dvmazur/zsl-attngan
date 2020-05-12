@@ -73,6 +73,24 @@ class ResBlock(nn.Module):
         return out
 
 
+class TorchifiedTfidfVec(TfidfVectorizer):
+    def __init__(self, index2word, **kwargs):
+        super(self.__class__, self).__init__(**kwargs)
+        
+        # your torch word indexes to words
+        self.index2word = index2word
+        
+    # returns embeddings for your batch of sentences
+    def emb_sentences(self, sentences):
+        # join tokens into sentences
+        wordified = [
+            " ".join([self.index2word.get(token, "") for token in sentence])
+            for sentence in sentences
+        ]
+        
+        return self.transform(wordified)
+
+
 # ############## Text2Image Encoder-Decoder #######
 class RNN_ENCODER(nn.Module):
     def __init__(self, tfidf, ntoken, ninput=300, drop_prob=0.5,
@@ -167,21 +185,6 @@ class RNN_ENCODER(nn.Module):
 
         return words_emb, sent_emb
 
-class TochifiedTfidfVec(TfidfVectorizer):
-    def __init__(self, index2word, *args, **kwargs):
-        super(self.__class__, self).__init__(*args, **kwargs)
-        
-        # your torch word indexes to words
-        self.index2word = index2word
-        
-    # returns embeddings for your batch of sentences
-    def emb_sentences(self, sentences):
-        wordified = [
-            " ".join([self.index2word.get(token, "") for token in sentence])
-            for sentence in sentences
-        ]
-        
-        m = self.transform(wordified)
 
 
 class CNN_ENCODER(nn.Module):
